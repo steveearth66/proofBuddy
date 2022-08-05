@@ -2,6 +2,14 @@
 
 from collections import deque
 
+# new global variable necessary to distinguish variables in expressions
+# uncertain about constants so be sure to test those. what about parens?
+BINSYMBOLS = ['∧', '∨', '→', '↔', '∀', '∃'] # not sure how quantifiers are stored in tree. possibly as binary. 
+UNASYMBOLS = ['¬']
+ZERSYMBOLS = ['⊥']  # also need booleans?  t_BOOL=r'((True)|(TRUE)|(False)|(FALSE)|⊥)'
+SYMBOLS = BINSYMBOLS + UNASYMBOLS + ZERSYMBOLS
+
+
 class Node:
     """
     Represents a node in a binary search tree
@@ -10,6 +18,7 @@ class Node:
         self.left = None
         self.value = data
         self.right = None
+        self.children = [] # this will be a list of all other children (unfortunately cannot do left, right, since no setters for those)
 
     def __str__(self):
         return inorder(self)
@@ -22,6 +31,12 @@ class Node:
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+# method of expressions. takes an expression (expr) and a list of bindings (env) and returns ans=#t/#f if self is an instance of expr. returns updated bindings
+    def instanceOf(self, expr, env):
+        ans = False
+        #put stuff here that checks
+        return ans, env
 
 def inorder(root: Node):
     """
@@ -96,6 +111,24 @@ def postorder(root: Node):
     
     return result
 
+#  # puts parens around it if not var/constant
+def enclose(tree:Node):
+    if tree.value in BINSYMBOLS:
+        return "("+tree2Str(tree)+")"
+    return tree2Str(tree)
+
+#TODO write for more children that just two
+# tree is the obj to be printed
+def tree2Str(tree:Node):  #unary function Colton put on the RIGHT child rather than the left!!!!
+    if tree==None or tree.value==None: #might not be necessary, but just in case!
+        return ""
+    if tree.value not in (BINSYMBOLS+UNASYMBOLS): #i.e. variable or constant 
+        return tree.value
+    if tree.value in UNASYMBOLS: # current just ¬
+        return tree.value+enclose(tree.right)
+    # only case left is a binsymbols #TODO this needs to be a loop based on n-ary of root
+    else:
+        return enclose(tree.left)+tree.value+enclose(tree.right)
 
 def tree_to_string(root: Node, string: list):
     """

@@ -11,6 +11,7 @@ from proofchecker.rules.conjunctionelim import ConjunctionElim
 from proofchecker.rules.demorgan import DeMorgan
 from proofchecker.rules.disjunctionintro import DisjunctionIntro
 from proofchecker.rules.disjunctionelim import DisjunctionElim
+from proofchecker.rules.dubnegintro import DubNegIntro #ADDED THIS ONE
 from proofchecker.rules.disjunctivesyllogism import DisjunctiveSyllogism
 from proofchecker.rules.doublenegationelim import DoubleNegationElim
 from proofchecker.rules.excludedmiddle import ExcludedMiddle
@@ -209,6 +210,17 @@ class BasicRuleTests(TestCase):
         result = rule.verify(line2, proof, parser)
         self.assertFalse(result.is_valid)
 
+#***ADDED THIS ONE:
+    def test_doubleNegIntro(self): 
+        rule = DubNegIntro()
+        parser = tflparser.parser
+        # Test with valid input
+        line1 = ProofLineObj('1', 'A', 'Premise')
+        line2 = ProofLineObj('2', '¬¬A', '¬¬I 1')
+        proof = ProofObj(lines=[line1, line2])
+        result = rule.verify(line2, proof, parser)
+        self.assertTrue(result.is_valid)
+#***ALSO TEST SOME INVALID CASES LATER
 
     def test_disjunction_elim(self): 
         rule = DisjunctionElim()

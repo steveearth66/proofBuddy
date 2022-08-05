@@ -1,6 +1,7 @@
 from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse
 from proofchecker.proofs.proofutils import fix_rule_whitespace_issues, make_tree, is_conclusion, depth, clean_rule
 from proofchecker.rules.rulechecker import RuleChecker
+from proofchecker.utils.binarytree import tree2Str
 from proofchecker.utils.constants import Constants
 from proofchecker.utils.tfllexer import IllegalCharacterError
 
@@ -39,11 +40,14 @@ def verify_proof(proof: ProofObj, parser):
             response.err_msg = 'Syntax error on line {}.  Expression "{}" does not conform to ruleset "{}"'\
                 .format(str(line.line_no), line.expression, Constants.RULES_CHOICES.get(proof.rules))
             return response
-        
+
         # Verify the rule is valid
-        response = verify_rule(line, proof, parser)
+        response = verify_rule(line, proof, parser) #BUG = this is returning None
         if not response.is_valid:
             return response
+
+### adding prints here
+        print(line.line_no, tree2Str(make_tree(line.expression, parser)))
 
     last_line = proof.lines[len(proof.lines)-1]
     conclusion = is_conclusion(last_line, proof, parser)

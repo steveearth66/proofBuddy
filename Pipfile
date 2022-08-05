@@ -10,6 +10,8 @@ coverage = "*"
 django-htmx = "*"
 pillow = "*"
 six = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

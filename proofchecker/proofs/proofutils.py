@@ -1,6 +1,6 @@
 from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse
 from proofchecker.utils import numparser
-from proofchecker.utils.binarytree import Node
+from proofchecker.utils.binarytree import Node, tree_to_string
 from proofchecker.utils.constants import Constants
 from proofchecker.utils.numlexer import lexer as numlexer
 from proofchecker.utils.tfllexer import IllegalCharacterError
@@ -16,7 +16,9 @@ def make_tree(string: str, parser):
     """
     Function to construct a binary tree
     """
-    return parser.parse(string, lexer=parser.lexer)
+    # CHANGED TO SEE HOW STRINGS STORED IN TREE (parens not part of it)
+    ans = parser.parse(string, lexer=parser.lexer)
+    return ans
 
 def is_line_no(string: str):
     """

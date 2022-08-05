@@ -1,6 +1,7 @@
 from proofchecker.proofs.proofobjects import ProofObj
 from proofchecker.rules.assumption import Assumption
 from proofchecker.rules.biconditionalelim import BiconditionalElim
+from proofchecker.rules.dubnegintro import DubNegIntro #added this!!!!!
 from proofchecker.rules.biconditionalintro import BiconditionalIntro
 from proofchecker.rules.conditionalelim import ConditionalElim
 from proofchecker.rules.conditionalintro import ConditionalIntro
@@ -31,7 +32,7 @@ from .rule import Rule
 
 TFL_BASIC_RULES = [Premise(), Assumption(), ConjunctionIntro(), ConjunctionElim(), DisjunctionIntro(), DisjunctionElim(), \
     ConditionalIntro(), ConditionalElim(), BiconditionalIntro(), BiconditionalElim(), NegationIntro(), NegationElim(), \
-    Explosion(), IndirectProof()]
+    Explosion(), IndirectProof(),DubNegIntro()] #added this last member!!
 
 TFL_DERIVED_RULES = [DisjunctiveSyllogism(), ModusTollens(), DoubleNegationElim(), Reiteration(), ExcludedMiddle(), DeMorgan()]
 

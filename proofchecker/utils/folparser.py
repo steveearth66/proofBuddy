@@ -153,7 +153,7 @@ def test():
             break
         if not s: continue
         result = parser.parse(s)
-        print(result)
+        #print(result) #commented out this printline
 
 # # Invalid syntax
 # class TFLSyntaxError(Exception):

@@ -1,3 +1,5 @@
+# will change all these to be instances of "ProofRule.verify()" after creating "FIAT" justification and saving all these rules as proofs
+
 from proofchecker.proofs.proofobjects import ProofObj
 from proofchecker.rules.assumption import Assumption
 from proofchecker.rules.biconditionalelim import BiconditionalElim

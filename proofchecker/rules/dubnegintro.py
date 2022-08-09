@@ -11,7 +11,7 @@ class DubNegIntro(Rule):
     def verify(self, current_line: ProofLineObj, proof: ProofObj, parser):
         """
         Verify proper implementation of the rule ¬¬I m
-        (Double Negation Introduction (made-up rule))
+        (Double Negation Introduction (made-up rule))  
         """
         rule = clean_rule(current_line.rule)
         response = ProofResponse()

@@ -62,7 +62,7 @@ def test(data):
             tok = lexer.token()
             if not tok:
                 break
-            print(tok)
+            #print(tok) #commented out this printline
 
 # Illegal Character
 class IllegalCharacterFOLError(Exception):

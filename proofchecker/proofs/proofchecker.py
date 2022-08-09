@@ -47,7 +47,7 @@ def verify_proof(proof: ProofObj, parser):
             return response
 
 ### adding prints here
-        print(line.line_no, tree2Str(make_tree(line.expression, parser)))
+        #print(line.line_no, tree2Str(make_tree(line.expression, parser)))
 
     last_line = proof.lines[len(proof.lines)-1]
     conclusion = is_conclusion(last_line, proof, parser)

@@ -1,4 +1,6 @@
 # Creates an binary tree
+# as part of refactoring, this should be an n-ary tree (see children list) with methods that state whether it's a literal of a function call, num of inputs,
+# types of inputs and outputs et al
 
 from collections import deque
 
@@ -7,6 +9,7 @@ from collections import deque
 BINSYMBOLS = ['∧', '∨', '→', '↔', '∀', '∃'] # not sure how quantifiers are stored in tree. possibly as binary. 
 UNASYMBOLS = ['¬']
 ZERSYMBOLS = ['⊥']  # also need booleans?  t_BOOL=r'((True)|(TRUE)|(False)|(FALSE)|⊥)'
+ASSOCS = ['∧', '∨', '↔'] #list of nonunary operations that are associative (and therefore don't require parens in monolithic multiples. e.g A∧B∧C)
 SYMBOLS = BINSYMBOLS + UNASYMBOLS + ZERSYMBOLS
 
 
@@ -35,7 +38,7 @@ class Node:
 # method of expressions. takes an expression (expr) and a list of bindings (env) and returns ans=#t/#f if self is an instance of expr. returns updated bindings
     def instanceOf(self, expr, env):
         ans = False
-        #put stuff here that checks
+        #put stuff here that checks. will need to convert to trees 
         return ans, env
 
 def inorder(root: Node):

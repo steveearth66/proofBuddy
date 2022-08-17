@@ -4,6 +4,7 @@ from proofchecker.rules.rulechecker import RuleChecker
 from proofchecker.utils.binarytree import tree2Str
 from proofchecker.utils.constants import Constants
 from proofchecker.utils.tfllexer import IllegalCharacterError
+from proofchecker.proofs import exprMethods
 
 def verify_proof(proof: ProofObj, parser):
     """
@@ -11,6 +12,7 @@ def verify_proof(proof: ProofObj, parser):
     Returns a ProofResponse, which contains an error message if invalid
     """
     response = ProofResponse()
+    print("testing: "+str(exprMethods.f(7)))
 
     if len(proof.lines) == 0:
         response.err_msg = "Cannot validate a proof with no lines"

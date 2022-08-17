@@ -219,6 +219,7 @@ def assignment_details_view(request, pk=None):
                     assignment=assignment, student=get_student
                 )
 
+# note that "prooff" is NOT a typo!
                 for i in get_proof:
                     get_proof = i.proof
                     prooff = ProofObj(lines=[])  #

@@ -1,4 +1,4 @@
-from proofchecker.utils.ply.lex import lex
+from proofchecker.utils.ply.lex import lex #could this have been just .ply.lex   (prolly, since the . act like / for subdirs)
 from .ply import yacc 
 
 from .binarytree import Node

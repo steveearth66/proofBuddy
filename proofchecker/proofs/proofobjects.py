@@ -85,7 +85,7 @@ class ProofRule(ProofObj):
             ans.err_msg += self.name+" is not in a permitted rule for this proof\n"
 
         #check that rule has been proved (FIAT is okay)
-        result = verify_proof(self) #put back in parser
+        result = verify_proof(self) #put back in parser, this does NOT work yet
         if not result.is_valid:
             ans.err_msg += self.name+" proof is not completed\n"  
 

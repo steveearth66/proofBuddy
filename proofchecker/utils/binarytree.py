@@ -34,12 +34,14 @@ class Node:
 
     def __ne__(self, other):
         return not self.__eq__(other)
-
+'''
 # method of expressions. takes an expression (expr) and a list of bindings (env) and returns ans=#t/#f if self is an instance of expr. returns updated bindings
     def instanceOf(self, expr, env):
         ans = False
+        exprTree = make_tree(expr, parser) # this won't work since the tflparser needs Node and causes circular dependency.
+
         #put stuff here that checks. will need to convert to trees 
-        return ans, env
+        return ans, env'''
 
 def inorder(root: Node):
     """

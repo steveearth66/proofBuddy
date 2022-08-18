@@ -1,10 +1,10 @@
 from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse
 from proofchecker.proofs.proofutils import fix_rule_whitespace_issues, make_tree, is_conclusion, depth, clean_rule
 from proofchecker.rules.rulechecker import RuleChecker
-from proofchecker.utils.binarytree import tree2Str
+from proofchecker.utils.binarytree import tree2Str #only used for testing
 from proofchecker.utils.constants import Constants
 from proofchecker.utils.tfllexer import IllegalCharacterError
-from proofchecker.proofs import exprMethods
+from proofchecker.proofs.exprMethods import myMakeTree, instanceOf
 
 def verify_proof(proof: ProofObj, parser):
     """
@@ -12,7 +12,9 @@ def verify_proof(proof: ProofObj, parser):
     Returns a ProofResponse, which contains an error message if invalid
     """
     response = ProofResponse()
-    print("testing: "+str(exprMethods.f(7)))
+    res = instanceOf(myMakeTree("A∧(A→B)"),myMakeTree("(B→C)∧((B→C)∨A)") , {})
+    print("testing: ", res[0], res[1])
+
 
     if len(proof.lines) == 0:
         response.err_msg = "Cannot validate a proof with no lines"

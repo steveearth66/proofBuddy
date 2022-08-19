@@ -12,9 +12,13 @@ def verify_proof(proof: ProofObj, parser):
     Returns a ProofResponse, which contains an error message if invalid
     """
     response = ProofResponse()
-    res = instanceOf(myMakeTree("A∧(A→B)"),myMakeTree("(B→C)∧((B→C)∨A)") , {})
-    print("testing: ", res[0], res[1])
-
+    ''' below is a test of instanceOf, seems to work!
+    res = instanceOf(myMakeTree("A∧(A∨B)",0),myMakeTree("(B→C)∧((B→C)∨A)",0) , {}) # the ,0 of maketree indicates it is tfl vs fol
+    if res[0]:
+        for x in res[1].keys():
+            print(x," replaced by ",res[1][x])
+    else:
+        print("no match")'''
 
     if len(proof.lines) == 0:
         response.err_msg = "Cannot validate a proof with no lines"

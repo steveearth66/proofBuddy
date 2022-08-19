@@ -30,7 +30,7 @@ def instanceOf(genTree:binarytree.Node, specTree:binarytree.Node, env:dict): #en
     genVal = genTree.value
     specVal = specTree.value
     if genVal in ZERSYMBOLS:
-        return genVal == specVal  # must match exactly, no parameters to check
+        return [genVal == specVal, env]  # must match exactly, no parameters to check
     if genVal in UNASYMBOLS: # e.g. ¬(A∧B)
         if specVal  != genVal: #gen was a ¬ but spec wasn't
             return [False, env]

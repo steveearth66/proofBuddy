@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from proofchecker.utils import tflparser, folparser, binarytree #parser needed to create tree, binarytree for Node methods (not needed?)
 
 # new global variable necessary to distinguish variables in expressions
@@ -24,9 +23,9 @@ def myMakeTree(expr:str, n:int)->binarytree.Node:
 def instanceOf(genTree:binarytree.Node, specTree:binarytree.Node, env:dict): #env["A"]=exprTree
     # in final version: number of parameters will be determined as an attribute to the operator, not by adhoc lists above
     #TODO still need to append to the environment!  maybe generate separate err msg if doesn't check out
-    if genTree==NULL: #just doing some error catching (hopefully this case shouldn't happen)
-        return [specTree==NULL, env]
-    if specTree==NULL:
+    if genTree==None: #just doing some error catching (hopefully this case shouldn't happen)
+        return [specTree==None, env]
+    if specTree==None:
         return [False, env]
     genVal = genTree.value
     specVal = specTree.value

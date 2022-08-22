@@ -5,6 +5,7 @@ from proofchecker.utils.binarytree import tree2Str #only used for testing
 from proofchecker.utils.constants import Constants
 from proofchecker.utils.tfllexer import IllegalCharacterError
 from proofchecker.proofs.exprMethods import myMakeTree, instanceOf
+from proofchecker.rules.newrule import NewRule #purely for testing
 
 def verify_proof(proof: ProofObj, parser):
     """

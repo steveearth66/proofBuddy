@@ -36,7 +36,7 @@ class ProofLineObj:
 class ProofObj:
     # added name attribute as part of object (rather than part of gui)
     def __init__(self, rules='tfl_basic', premises=[], conclusion='', lines=[], created_by='', name=""):
-        self.rules = rules
+        self.rules = rules #TODO: for future, this will have to be a list of allowed rules, not a specific string, presently 'fol_derived' etc
         self.premises = premises
         self.conclusion = conclusion
         self.lines = lines

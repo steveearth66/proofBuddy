@@ -55,6 +55,13 @@ class ProofObj:
 
     def getPremises(self):
         return self.premises
+    
+    def numPremises(self):
+        count = 0
+        for line in self.lines:
+            if line.rule=="Premise":
+                count+=1
+        return count
 
     def getLine(self,n):
         return self.lines[n]
@@ -62,7 +69,7 @@ class ProofObj:
     def setLine(self,n, myLine: ProofLineObj):
         self.lines[n]=myLine
 
-    def getConclusion(self):
+    def getConclusion(self):       
         return self.conclusion
     
     def setConclusion(self, myConclusion: ProofLineObj):

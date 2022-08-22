@@ -20,6 +20,7 @@ def verify_proof(proof: ProofObj, parser):
             print(x," replaced by ",res[1][x])
     else:
         print("no match")'''
+    #print("testing num of premises:", NewRule.test())
 
     if len(proof.lines) == 0:
         response.err_msg = "Cannot validate a proof with no lines"

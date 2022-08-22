@@ -1,4 +1,4 @@
-from proofchecker.utils import tflparser, folparser, binarytree #parser needed to create tree, binarytree for Node methods (not needed?)
+from proofchecker.utils import tflparser, folparser, binarytree #parser needed to create tree, binarytree for Node methods (needed for tree equality)
 
 # new global variable necessary to distinguish variables in expressions
 # uncertain about constants so be sure to test those. what about parens?

@@ -3,7 +3,7 @@
 class ProofLineObj:
 
     def __init__(self, line_no=None, expression=None, rule=None): #really rule should be type ProofRule, but keeping string for now until fully refactored
-        #similarly, expression should type ProofExpression (an nary tree with methods) but keeping string for now.
+        #similarly, expression should type ProofExpression (an nary tree with methods) but keeping string for now. all these attribs are strings!
         self.line_no = line_no
         self.expression = expression
         self.rule = rule
@@ -14,6 +14,9 @@ class ProofLineObj:
             self.expression,
             self.rule
         ))
+    
+    def strList(self):  #returns a list of strings useful for JSON
+        return [self.line_no, self.expression, self.rule]
     
     def setLineNum(self, myNum):
         self.line_no = myNum
@@ -36,7 +39,8 @@ class ProofLineObj:
 class ProofObj:
     # added name attribute as part of object (rather than part of gui)
     def __init__(self, rules='tfl_basic', premises=[], conclusion='', lines=[], created_by='', name=""):
-        self.rules = rules #TODO: for future, this will have to be a list of allowed rules, not a specific string, presently 'fol_derived' etc
+        self.rules = rules 
+        self.ruleList = [] #TODO: for future, this will have to be a list of allowed rules, not a specific string, presently 'fol_derived' etc
         self.premises = premises
         self.conclusion = conclusion
         self.lines = lines
@@ -80,43 +84,6 @@ class ProofRule(ProofObj):
     
     def __init__(self, rules='tfl_basic', premises=[], conclusion='', lines=[], created_by='', name=""):
         super().__init__(rules, premises, conclusion, lines, created_by, name)
-
-# takes a proof and list of lines
-# returns a ProofResponse err msg if any of the cited lines of the proof are not instances of self.premises, otherwise returns True
-    def verifyNewRule(self, myProof: ProofObj, lines=[]):
-        ans = ProofResponse(False,"") #default is False, so remember to set to True if everything passes! 
-        #TODO: change err msgs to be a LIST rather than single string. for now, just appending onto single string with \n, returning at end (vs old way = on detection)
-        
-        #check that rule is permitted
-        if self.name not in myProof.rules: #TODO: will need to change .rules to a LIST rather than a string label
-            ans.err_msg += self.name+" is not in a permitted rule for this proof\n"
-
-        #check that rule has been proved (FIAT is okay)
-        result = verify_proof(self) #put back in parser, this does NOT work yet
-        if not result.is_valid:
-            ans.err_msg += self.name+" proof is not completed\n"  
-
-        numPremises = len(self.premises)
-        numCitations = len(lines)
-        if numPremises != numCitations: #checking to see if cited the correct amt of lines
-            ans.err_msg = self.name+" requires exactly "+str(numPremises)+" citations, but the proof cites "+str(numCitations)
-
-        # check to see that each line is a valid (occurs in accessible part of proof)
-        for x in range(numCitations):
-            pass # copy this from one of the verify files, such as dubneginto.py, but do an append onto ans      
-        
-        #this part 
-        for x in range(numPremises): 
-            pass
-            # will need a good way to access tree section of expression from the string version of the line... 
-            #if myProof.lines[lines[x]].instanceOf(self.premise[x])
-            # continue
-            # else:  give err.msg 
-        return ans
-
-# takes a proof
-    def applyNewRule(self, myProof: ProofObj):
-        pass
 
 class ProofResponse:
 

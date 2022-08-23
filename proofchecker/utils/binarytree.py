@@ -1,3 +1,5 @@
+# from typing import List used to doing composite types
+
 # Creates an binary tree
 # as part of refactoring, this should be an n-ary tree (see children list) with methods that state whether it's a literal of a function call, num of inputs,
 # types of inputs and outputs et al

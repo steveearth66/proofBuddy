@@ -50,6 +50,9 @@ class RuleChecker:
         """
         Determine which rule is being applied
         """
+        if rule.casefold() in [x.casefold() for x in proof.getRuleList()]:
+            #print("found rule!")
+            return NewRule()
 
         if proof.rules == 'fol_derived':
             for derived_fol_rule in FOL_DERIVED_RULES:

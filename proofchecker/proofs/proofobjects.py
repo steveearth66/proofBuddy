@@ -42,10 +42,10 @@ class ProofLineObj:
 
 class ProofObj:
     # added name attribute as part of object (rather than part of gui)
-    #note that premises and conclusion are lineObjects not strings!
+    #note that premises and conclusion are lineObjects not strings!  WAIT: maybe they are strs sometimes, since crashed line2Dict
     def __init__(self, rules='tfl_basic', premises=[], conclusion='', lines=[], created_by='', name="", complete=False):
         self.rules = rules 
-        self.ruleList = [] #TODO: for future, this will have to be a list of allowed rules, not a specific string, presently rules='fol_derived' etc
+        self.ruleList = ["ds"] #TODO: for future, this will have to be a list of allowed rules, not a specific string, presently rules='fol_derived' etc
         self.premises = premises
         self.conclusion = conclusion
         self.lines = lines
@@ -96,7 +96,15 @@ class ProofObj:
         myDict["complete"]=self.complete
         myDict["rules"]=self.rules #didn't bother with a getter since it will be obsoleted by ruleList eventually
         myDict["ruleList"]=self.getRuleList()
-        myDict["premises"]=[L.line2Dict() for L in self.getPremises()]
+        P=self.getPremises() # this is needed due to inconsistency of premises intially stored as strings rather than line numbers
+        myDict["premises"]=[]
+        if P != []:
+            if isinstance(P[0], str):
+                for n in range(len(P)):
+                    myDict["premises"].append({"lineNum":n+1, "expr":P[n],"rule":"Premise"})
+            else:
+                myDict["premises"]=[L.line2Dict() for L in P]
+        self.setConclusion(self.lines[-1]) # needed since otherwise might be a string rather than a LineObj
         myDict["conclusion"]=self.getConclusion().line2Dict()
         myDict["lines"]=[L.line2Dict() for L in self.lines] #makes a sub dictionary for the lines
         with open(self.name.replace(" ","")+".json",'w') as f:
@@ -105,6 +113,7 @@ class ProofObj:
 
 def loadJson(name):
     myProof = ProofObj()
+    print("looking for: "+name.replace(" ","")+".json")
     with open(name.replace(" ","")+".json",'r') as f:
         proofDict = json.load(f)["Proofs"][0] # for extensibility, Proofs could theoretically hold multiple possible proofs. for now, just the one
     myProof.name = proofDict["name"]

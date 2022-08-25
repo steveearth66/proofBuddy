@@ -1,4 +1,4 @@
-from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse
+from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse, loadJson
 from proofchecker.proofs.proofutils import fix_rule_whitespace_issues, make_tree, is_conclusion, depth, clean_rule
 from proofchecker.rules.rulechecker import RuleChecker
 # from proofchecker.utils.binarytree import tree2Str #only used for testing
@@ -7,20 +7,20 @@ from proofchecker.utils.tfllexer import IllegalCharacterError
 #from proofchecker.proofs.exprMethods import myMakeTree, instanceOf #no longer needed for this file
 from proofchecker.rules.newrule import NewRule #purely for testing
 
+print(loadJson("ds"))
+
 def verify_proof(proof: ProofObj, parser):
+    '''
+    ****  FOR DEMO: PUT IN THE NAME OF THE RULE/PROOF HERE:
+    '''
+    proof.name = "example1" # example#1 will be for Disjunctive Syllogism
+
     """
     Verify if a proof is valid, line by line.  
     Returns a ProofResponse, which contains an error message if invalid
     """
     response = ProofResponse()
-    ''' below is a test of instanceOf, seems to work!
-    res = instanceOf(myMakeTree("A∧(A∨B)",0),myMakeTree("(B→C)∧((B→C)∨A)",0) , {}) # the ,0 of maketree indicates it is tfl vs fol
-    if res[0]:
-        for x in res[1].keys():
-            print(x," replaced by ",res[1][x])
-    else:
-        print("no match")'''
-    #print("testing num of premises:", NewRule.test())
+
 
     if proof.complete: # checking if proof has already been validated previously. Note: as soon as ANY edits made, must change this to False!
         response.is_valid=True
@@ -75,9 +75,10 @@ def verify_proof(proof: ProofObj, parser):
         elif depth(last_line.line_no) > 1:
             response.err_msg = "Proof cannot be concluded within a subproof"
             return response
-        else:
+        else: # DO THIS NEXT BLOCK ONLY WHEN PROOF IS FULLY COMPLETE
             response.is_valid = True
             proof.complete = True      # new attrib to save time of rechecking (hopefully this is the only case of a completed proof!)
+            proof.saveJson()
             return response
 
     # If not, the proof is incomplete

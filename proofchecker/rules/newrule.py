@@ -29,15 +29,15 @@ print(testProof) #testing if dictionary was created properly. note that it does 
 
 class NewRule(Rule):
 
-    name = "New Rule" # this would be the name of the proof
-    symbols = "NR"    # most likely a name of the proof without spaces? 
+    #name = "New Rule" # this would be the name of the proof
+    #symbols = "NR"    # most likely a name of the proof without spaces? 
 
-    def test():  #just for testing
-        global myProof
-        return myProof.numPremises()
+    #def test():  #just for testing
+     #   global myProof
+      #  return myProof.numPremises()
 
     def verify(self, current_line: ProofLineObj, proof: ProofObj, parser):
-        global myProof # in future version, this will be read-in as the appropriate new rule proof
+        #global myProof # in future version, this will be read-in as the appropriate new rule proof
 
         """
         Verify proper implementation of the new rule
@@ -46,6 +46,7 @@ class NewRule(Rule):
         rule = clean_rule(current_line.rule)
         response = ProofResponse() #default .isvalid=False
         proof.complete = False # since they must have made a change, resetting to the default (also done in old proofchecker.py/verify_rule)
+        myProof = loadJson(rule[:rule.find(" ")].casefold())
 
         # testing print(current_line.line_no, current_line.expression,current_line.rule, response.err_msg, response.is_valid)   
         #cannot do: result = verify_proof(proof, tflparser.parser) because of dependency issues

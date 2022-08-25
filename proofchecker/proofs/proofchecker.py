@@ -22,6 +22,10 @@ def verify_proof(proof: ProofObj, parser):
         print("no match")'''
     #print("testing num of premises:", NewRule.test())
 
+    if proof.complete: # checking if proof has already been validated previously. Note: as soon as ANY edits made, must change this to False!
+        response.is_valid=True
+        return response
+
     if len(proof.lines) == 0:
         response.err_msg = "Cannot validate a proof with no lines"
         return response
@@ -73,6 +77,7 @@ def verify_proof(proof: ProofObj, parser):
             return response
         else:
             response.is_valid = True
+            proof.complete = True      # new attrib to save time of rechecking (hopefully this is the only case of a completed proof!)
             return response
 
     # If not, the proof is incomplete
@@ -87,6 +92,7 @@ def verify_rule(current_line: ProofLineObj, proof: ProofObj, parser):
     Determines what rule is being applied, then calls the appropriate
     function to verify the rule is applied correctly
     """
+    proof.complete = False # since they must have made a change, resetting to the default (also done in newrule.py)
     rule_str = clean_rule(current_line.rule)
     fixed_rule = fix_rule_whitespace_issues(rule_str)
     rule_symbols = fixed_rule.split()[0]

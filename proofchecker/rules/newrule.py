@@ -1,10 +1,11 @@
-from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse
+from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse, loadJson
 from proofchecker.proofs.exprMethods import instanceOf, myMakeTree
 from proofchecker.proofs.proofutils import clean_rule, get_lines, verify_line_citation, make_tree, get_expressions, get_line_nos
 from proofchecker.utils.binarytree import Node, tree2Str
 # from proofchecker.proofs.proofchecker import verify_proof #CIRCULAR = verifying a rule requires verifying a proof but verifying a proof must verify rules
 from proofchecker.utils import tflparser
 from .rule import Rule
+from proofchecker.proofs.testingJson import jsonProof
 
  # in next version, this will look for a file in the student or teacher directory named "new rule" (or with the given name),
  # but instead of loading it from the database and/or a parsed JSON file, for this version we will hardcode in the rule
@@ -12,11 +13,14 @@ from .rule import Rule
 rawProof = [['1', 'A', 'Premise'], ['2.1', '¬A', 'Assumption'], ['2.2', '⊥', '¬E 2.1, 1'], ['3', '¬¬A', '¬I 2']]
 myLines = [ProofLineObj(x[0],x[1],x[2]) for x in rawProof]
 myProof = ProofObj(rules='tfl_basic', lines=myLines, conclusion = myLines[-1], created_by='Steve', name="New Rule") #will have to read in permitted rules list
+myProof.complete = True
 #result = instanceOf(myProof.conclusion,  make_tree("¬¬(A→C)",tflparser.parser),{})
 #print(result[0],result[1])
-
 for x in range(myProof.numPremises()):
     myProof.premises.append(myLines[x]) #just needed since we are hard-coding this. normally this would be read from file
+# myProof.saveJson() # this correctly made a json file!
+testProof = loadJson("NewRule")
+print(testProof) #testing if dictionary was created properly
 
 class NewRule(Rule):
 
@@ -36,6 +40,7 @@ class NewRule(Rule):
         """
         rule = clean_rule(current_line.rule)
         response = ProofResponse() #default .isvalid=False
+        proof.complete = False # since they must have made a change, resetting to the default (also done in old proofchecker.py/verify_rule)
 
         # testing print(current_line.line_no, current_line.expression,current_line.rule, response.err_msg, response.is_valid)   
         #cannot do: result = verify_proof(proof, tflparser.parser) because of dependency issues

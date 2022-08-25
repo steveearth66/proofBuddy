@@ -1,4 +1,5 @@
 # from proofchecker.proofs.proofchecker import verify_proof #CANNOT USE THIS SINCE IT DEPENDS ON THIS CLASS
+import json # needed to save/load proofs as json files
 
 class ProofLineObj:
 
@@ -36,16 +37,21 @@ class ProofLineObj:
     def getRule(self):
         return self.rule  
 
+    def line2Dict(self)->dict:  # a new method of Line objects that is useful for making json files
+        return {"lineNum":self.getLineNum(), "expr":self.getExpr(),"rule":self.getRule()}
+
 class ProofObj:
     # added name attribute as part of object (rather than part of gui)
-    def __init__(self, rules='tfl_basic', premises=[], conclusion='', lines=[], created_by='', name=""):
+    #note that premises and conclusion are lineObjects not strings!
+    def __init__(self, rules='tfl_basic', premises=[], conclusion='', lines=[], created_by='', name="", complete=False):
         self.rules = rules 
-        self.ruleList = [] #TODO: for future, this will have to be a list of allowed rules, not a specific string, presently 'fol_derived' etc
+        self.ruleList = [] #TODO: for future, this will have to be a list of allowed rules, not a specific string, presently rules='fol_derived' etc
         self.premises = premises
         self.conclusion = conclusion
         self.lines = lines
         self.created_by = created_by
         self.name = name
+        self.complete = complete
     
     def __str__(self): #BUG: this could potentially be a problem if old version called this thinking it was getting only lines!
         #result = "Proof: "+self.name+"\n" #added name as a title, but commented out to prevent testing errors based on reading lines
@@ -59,6 +65,9 @@ class ProofObj:
 
     def getPremises(self):
         return self.premises
+
+    def getRuleList(self):  # can make a setter later, once the idea becomes more fleshed out
+        return self.ruleList
     
     def numPremises(self):
         count = 0
@@ -78,6 +87,40 @@ class ProofObj:
     
     def setConclusion(self, myConclusion: ProofLineObj):
         self.conclusion=myConclusion
+
+    # creates string of a json representation of a proof (later will save it into a filename)
+    def saveJson(self): #nothing returned here, it just creates a jsonfile at outfile
+        myDict={}
+        myDict["name"]=self.name # didn't bother with getters since just strings/bools for these
+        myDict["created_by"]=self.created_by
+        myDict["complete"]=self.complete
+        myDict["rules"]=self.rules #didn't bother with a getter since it will be obsoleted by ruleList eventually
+        myDict["ruleList"]=self.getRuleList()
+        myDict["premises"]=[L.line2Dict() for L in self.getPremises()]
+        myDict["conclusion"]=self.getConclusion().line2Dict()
+        myDict["lines"]=[L.line2Dict() for L in self.lines] #makes a sub dictionary for the lines
+        with open(self.name.replace(" ","")+".json",'w') as f:
+            json.dump({"Proofs":[myDict]} ,f,indent=2) # format for json files is a dictionary with one item containing a list of dictionaries
+        return #nothing to really return
+
+def loadJson(name):
+    myProof = ProofObj()
+    with open(name.replace(" ","")+".json",'r') as f:
+        proofDict = json.load(f)["Proofs"][0] # for extensibility, Proofs could theoretically hold multiple possible proofs. for now, just the one
+    myProof.name = proofDict["name"]
+    myProof.created_by=proofDict["created_by"]
+    myProof.complete=proofDict["complete"] #check to make sure this is the constant True and not a string or lowercase true like in the json
+    myProof.rules=proofDict["rules"] # will be obsolete once ruleList made
+    myProof.ruleList=proofDict["ruleList"] #not yet implemented
+    myProof.premises=[] # should already be empty, but initializing just in case of something weird i didn't expect
+    for L in proofDict["premises"]:
+        myProof.premises.append(ProofLineObj(L["lineNum"],L["expr"],L["rule"]))
+    L = proofDict["conclusion"]
+    myProof.setConclusion(ProofLineObj(L["lineNum"],L["expr"],L["rule"]))
+    myProof.lines=[]
+    for L in proofDict["lines"]:
+        myProof.lines.append(ProofLineObj(L["lineNum"],L["expr"],L["rule"]))
+    return myProof
 
 # making a rule as an extension of a Proof. 
 class ProofRule(ProofObj):

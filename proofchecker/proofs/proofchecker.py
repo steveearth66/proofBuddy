@@ -1,10 +1,10 @@
 from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse
 from proofchecker.proofs.proofutils import fix_rule_whitespace_issues, make_tree, is_conclusion, depth, clean_rule
 from proofchecker.rules.rulechecker import RuleChecker
-from proofchecker.utils.binarytree import tree2Str #only used for testing
+# from proofchecker.utils.binarytree import tree2Str #only used for testing
 from proofchecker.utils.constants import Constants
 from proofchecker.utils.tfllexer import IllegalCharacterError
-from proofchecker.proofs.exprMethods import myMakeTree, instanceOf
+#from proofchecker.proofs.exprMethods import myMakeTree, instanceOf #no longer needed for this file
 from proofchecker.rules.newrule import NewRule #purely for testing
 
 def verify_proof(proof: ProofObj, parser):

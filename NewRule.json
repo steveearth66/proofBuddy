@@ -11,11 +11,6 @@
           "lineNum": "1",
           "expr": "A",
           "rule": "Premise"
-        },
-        {
-          "lineNum": "1",
-          "expr": "A",
-          "rule": "Premise"
         }
       ],
       "conclusion": {

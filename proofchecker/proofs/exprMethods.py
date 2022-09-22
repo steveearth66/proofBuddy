@@ -15,7 +15,7 @@ def myMakeTree(expr:str, n:int)->binarytree.Node:
     if n==0:
         return tflparser.parser.parse(expr, lexer=tflparser.parser.lexer)
     if n==1:
-        return folparser.parser.parse(expr, lexer=tflparser.parser.lexer)
+        return folparser.parser.parse(expr, lexer=folparser.parser.lexer)
 
 # gen is the expression in general (i.e. from the new rule), where spec is the specific case we want to check validity on
 # need to do parameters as trees rather than strings, so can recurse on children!

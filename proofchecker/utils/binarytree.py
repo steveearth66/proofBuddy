@@ -8,8 +8,8 @@ from collections import deque
 
 # new global variable necessary to distinguish variables in expressions
 # uncertain about constants so be sure to test those. what about parens?
-BINSYMBOLS = ['∧', '∨', '→', '↔', '∀', '∃'] # not sure how quantifiers are stored in tree. possibly as binary. 
-UNASYMBOLS = ['¬']
+BINSYMBOLS = ['∧', '∨', '→', '↔'] # not sure how quantifiers are stored in tree. possibly as binary. 
+UNASYMBOLS = ['¬', '∀', '∃'] #quantifiers stored in single node as "∀x∈V" with one right child as the scope
 ZERSYMBOLS = ['⊥']  # also need booleans?  t_BOOL=r'((True)|(TRUE)|(False)|(FALSE)|⊥)'
 ASSOCS = ['∧', '∨', '↔'] #list of nonunary operations that are associative (and therefore don't require parens in monolithic multiples. e.g A∧B∧C)
 SYMBOLS = BINSYMBOLS + UNASYMBOLS + ZERSYMBOLS
@@ -127,11 +127,12 @@ def enclose(tree:Node):
 #TODO write for more children that just two
 # tree is the obj to be printed
 def tree2Str(tree:Node):  #unary function Colton put on the RIGHT child rather than the left!!!!
-    if tree==None or tree.value==None: #might not be necessary, but just in case!
+    
+    if tree==None or tree.value==None or tree.value=="": #might not be necessary, but just in case!
         return ""
-    if tree.value not in (BINSYMBOLS+UNASYMBOLS): #i.e. variable or constant 
+    if tree.value[0] not in (BINSYMBOLS+UNASYMBOLS): #i.e. variable or constant or a predicate like "Pxy" or "P(x,y)"
         return tree.value
-    if tree.value in UNASYMBOLS: # current just ¬
+    if tree.value[0] in UNASYMBOLS: # i.e. could be lone ¬ or could be "∀x∈V"
         return tree.value+enclose(tree.right)
     # only case left is a binsymbols #TODO this needs to be a loop based on n-ary of root
     else:

@@ -1,0 +1,37 @@
+{
+  "Proofs": [
+    {
+      "name": "",
+      "created_by": "",
+      "complete": true,
+      "rules": "fol_derived",
+      "ruleList": [
+        "ds"
+      ],
+      "premises": [
+        {
+          "lineNum": 1,
+          "expr": "\u2200x\u2208V(Px\u2227Qx)",
+          "rule": "Premise"
+        }
+      ],
+      "conclusion": {
+        "lineNum": "2",
+        "expr": "Pa \u2227 Qb",
+        "rule": "\u2200E 1"
+      },
+      "lines": [
+        {
+          "lineNum": "1",
+          "expr": "\u2200x\u2208V (Px \u2227 Qx)",
+          "rule": "Premise"
+        },
+        {
+          "lineNum": "2",
+          "expr": "Pa \u2227 Qb",
+          "rule": "\u2200E 1"
+        }
+      ]
+    }
+  ]
+}

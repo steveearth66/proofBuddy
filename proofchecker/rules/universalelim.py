@@ -1,6 +1,7 @@
 from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse
 from proofchecker.proofs.proofutils import clean_rule, get_line, verify_line_citation, make_tree, verify_same_structure_FOL, \
     verify_var_replaces_some_name
+from proofchecker.utils.binarytree import tree2Str
 from .rule import Rule
 
 class UniversalElim(Rule):
@@ -44,6 +45,18 @@ class UniversalElim(Rule):
                 # Verify that all instances of the bound variable in root_m.right
                 # are replaced by the same name in current
                 var = root_m.value[1]
+
+                # let's try doing string replacement first:
+                expr_no_quant = tree2Str(root_m.right)
+                new_expr = tree2Str(current)
+                print("old = ", expr_no_quant,"\nnew = ",new_expr)
+                ind=expr_no_quant.find(var)
+                if ind>=0:
+                    all_sub = expr_no_quant.replace(var,new_expr[ind] )
+                    if all_sub!=new_expr: #in reality, there might be other issues such as parens to check out. really need tree struct
+                        response.err_msg = "Steve says improper instantiation"
+                        return response
+
                 result = verify_var_replaces_some_name(root_m.right, current, var, target_line.line_no, current_line.line_no)
                 if result.is_valid == False:
                     result.err_msg = 'Error on line {}: '.format(current_line.line_no) + result.err_msg

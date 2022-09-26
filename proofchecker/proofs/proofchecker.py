@@ -1,10 +1,10 @@
 from proofchecker.proofs.proofobjects import ProofObj, ProofLineObj, ProofResponse, loadJson
 from proofchecker.proofs.proofutils import fix_rule_whitespace_issues, make_tree, is_conclusion, depth, clean_rule
 from proofchecker.rules.rulechecker import RuleChecker
-from proofchecker.utils.binarytree import tree2Str #only used for testing
+#from proofchecker.utils.binarytree import tree2Str #only used for testing
 from proofchecker.utils.constants import Constants
 from proofchecker.utils.tfllexer import IllegalCharacterError
-from proofchecker.proofs.exprMethods import myMakeTree, instanceOf #no longer needed for this file
+#from proofchecker.proofs.exprMethods import myMakeTree, instanceOf #no longer needed for this file
 from proofchecker.rules.newrule import NewRule #purely for testing
 
 # print(loadJson("ds")) ; used for demo
@@ -22,7 +22,7 @@ def verify_proof(proof: ProofObj, parser):
     response = ProofResponse()
 
     #want to test FOL trees
-    print("as string:", tree2Str(myMakeTree(proof.lines[-1].getExpr(),1)))
+    #print("as string:", tree2Str(myMakeTree(proof.lines[-1].getExpr(),1)))
 
 
     if proof.complete: # checking if proof has already been validated previously. Note: as soon as ANY edits made, must change this to False!

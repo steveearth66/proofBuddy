@@ -4,7 +4,7 @@
       "name": "",
       "created_by": "",
       "complete": true,
-      "rules": "fol_derived",
+      "rules": "fol_basic",
       "ruleList": [
         "ds"
       ],
@@ -17,18 +17,18 @@
       ],
       "conclusion": {
         "lineNum": "2",
-        "expr": "Pa \u2227 Qb",
+        "expr": "Pa\u2227Qa",
         "rule": "\u2200E 1"
       },
       "lines": [
         {
           "lineNum": "1",
-          "expr": "\u2200x\u2208V (Px \u2227 Qx)",
+          "expr": "\u2200x\u2208V(Px\u2227Qx)",
           "rule": "Premise"
         },
         {
           "lineNum": "2",
-          "expr": "Pa \u2227 Qb",
+          "expr": "Pa\u2227Qa",
           "rule": "\u2200E 1"
         }
       ]

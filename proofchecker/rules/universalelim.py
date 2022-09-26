@@ -46,7 +46,7 @@ class UniversalElim(Rule):
                 # are replaced by the same name in current
                 var = root_m.value[1]
 
-                # let's try doing string replacement first:
+                '''# let's try doing string replacement first: this does NOT work due to  ∀x∈V Px ∧ (∀x∈V Qx), so must use tree structure to maintain scope!!
                 expr_no_quant = tree2Str(root_m.right)
                 new_expr = tree2Str(current)
                 print("old = ", expr_no_quant,"\nnew = ",new_expr)
@@ -55,9 +55,10 @@ class UniversalElim(Rule):
                     all_sub = expr_no_quant.replace(var,new_expr[ind] )
                     if all_sub!=new_expr: #in reality, there might be other issues such as parens to check out. really need tree struct
                         response.err_msg = "Steve says improper instantiation"
-                        return response
+                        return response'''
 
-                result = verify_var_replaces_some_name(root_m.right, current, var, target_line.line_no, current_line.line_no)
+                #added list of bindings to represent environment
+                result = verify_var_replaces_some_name(root_m.right, current, var, target_line.line_no, current_line.line_no, [])
                 if result.is_valid == False:
                     result.err_msg = 'Error on line {}: '.format(current_line.line_no) + result.err_msg
                     return result

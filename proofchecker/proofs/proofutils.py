@@ -605,7 +605,7 @@ def verify_var_replaces_every_name(var_tree: Node, name_tree: Node, var: str, va
     return response
 
 
-def verify_var_replaces_some_name(var_tree: Node, name_tree: Node, var: str, var_line_no: str, name_line_no: str):
+def verify_var_replaces_some_name(var_tree: Node, name_tree: Node, var: str, var_line_no: str, name_line_no: str, binds: list):
     """
     Verify that all instances of var in var_tree are replaced by a single name in name_tree
     """
@@ -617,13 +617,21 @@ def verify_var_replaces_some_name(var_tree: Node, name_tree: Node, var: str, var
 
     # If both trees have a left node, check the left nodes (recursive)
     if (var_tree.left != None) and (name_tree.left != None):
-        response = verify_var_replaces_some_name(var_tree.left, name_tree.left, var, var_line_no, name_line_no)
+        if var_tree.value != name_tree.value:
+            response.err_msg = 'expression on line {} does not match the expression on line {}'\
+                .format(var_line_no, name_line_no)
+            return response
+        response = verify_var_replaces_some_name(var_tree.left, name_tree.left, var, var_line_no, name_line_no, binds)
         if response.is_valid == False:
             return response
 
     # If both trees have a right node, check the right nodes (recursive)
     if (var_tree.right != None) and (name_tree.right != None):
-        response = verify_var_replaces_some_name(var_tree.right, name_tree.right, var, var_line_no, name_line_no)
+        if var_tree.value != name_tree.value:
+            response.err_msg = 'expression on line {} does not match the expression on line {}'\
+                .format(var_line_no, name_line_no)
+            return response
+        response = verify_var_replaces_some_name(var_tree.right, name_tree.right, var, var_line_no, name_line_no, binds)
         if response.is_valid == False:
             return response
 
@@ -634,7 +642,8 @@ def verify_var_replaces_some_name(var_tree: Node, name_tree: Node, var: str, var
     expression_with_vars = var_tree.value.replace(' ', '')
     expression_with_names = name_tree.value.replace(' ', '')
 
-    # Make sure the bound variable does not appear in the expression with names
+    # Make sure the bound variable does not appear in the expression with names. NOTE: ∀x∈V Px ∧ (∀x∈V Qx) is okay due to only searching subtree
+    # make a unit test getting Pa ∧ (∀x∈V Qx) to be sure.  however ∀x∈V (Px ∧ (∀x∈V Qx)) WOULD go wrong, but that is okay since poorly expressed.
     for ch in expression_with_names:
         if ch == var:
             response = ProofResponse()

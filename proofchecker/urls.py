@@ -6,7 +6,7 @@ from django.urls import path
 
 from . import views
 
-admin.site.site_header = "ProofChecker Admin"
+admin.site.site_header = "Proof Buddy Admin"
 
 
 urlpatterns = [

@@ -53,7 +53,7 @@ class Student(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
-        super().save()
+        super().save(*args, **kwargs) # note that I added the parameters here, they were empty
         img = Image.open(self.image.path)
 
         if img.height > 200 or img.width > 200:

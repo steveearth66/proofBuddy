@@ -81,6 +81,10 @@ def verify_proof(proof: ProofObj, parser):
         else: # DO THIS NEXT BLOCK ONLY WHEN PROOF IS FULLY COMPLETE
             response.is_valid = True
             proof.complete = True      # new attrib to save time of rechecking (hopefully this is the only case of a completed proof!)
+            
+            #JUST FOR BOADY
+            proof.name="boadyExample"
+
             proof.saveJson()
             return response
 

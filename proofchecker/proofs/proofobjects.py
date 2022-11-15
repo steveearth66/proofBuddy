@@ -98,6 +98,8 @@ class ProofObj:
         myDict["ruleList"]=self.getRuleList()
         P=self.getPremises() # this is needed due to inconsistency of premises intially stored as strings rather than line numbers
         myDict["premises"]=[]
+        if P=="":
+            P=[]
         if P != []:
             if isinstance(P[0], str):
                 for n in range(len(P)):

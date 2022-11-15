@@ -4,32 +4,32 @@
       "name": "",
       "created_by": "",
       "complete": true,
-      "rules": "fol_basic",
+      "rules": "tfl_basic",
       "ruleList": [
         "ds"
       ],
       "premises": [
         {
           "lineNum": 1,
-          "expr": "\u2200x\u2208V(Px\u2227Qx)",
+          "expr": "A\u2227B",
           "rule": "Premise"
         }
       ],
       "conclusion": {
         "lineNum": "2",
-        "expr": "Pa\u2227Qa",
-        "rule": "\u2200E 1"
+        "expr": "A",
+        "rule": "\u2227E 1"
       },
       "lines": [
         {
           "lineNum": "1",
-          "expr": "\u2200x\u2208V(Px\u2227Qx)",
+          "expr": "A\u2227B",
           "rule": "Premise"
         },
         {
           "lineNum": "2",
-          "expr": "Pa\u2227Qa",
-          "rule": "\u2200E 1"
+          "expr": "A",
+          "rule": "\u2227E 1"
         }
       ]
     }
